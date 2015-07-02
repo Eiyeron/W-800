@@ -16,17 +16,25 @@ def ddg(tg, message):
     else:
         tg.send_message(message.chat.id, "https://duckduckgo.com/?q="+argument)
 
+def lastest_xkcd(tg, message):
+    r = requests.get("http://xkcd.com/info.0.json").json()
+    tg.send_message(message.chat.id, "'{} - {} - {}".format(r['title'], r["img"], r["alt"]))
+
+
 def xkcd(tg, message):
+    array = message.text.split(" ", 1)
+    if len(array) < 2:
+        lastest_xkcd(tg, message)
+        return
+
     argument = message.text.split(" ", 1)[1]
-    print(argument)
     if not argument:
-        tg.send_message(message.chat.id, "No argument given. EXTERMINATE!")
+        lastest_xkcd(tg, message)
     else:
         try:
             number = int(argument)
-            print("http://xkcd.com/{}/info.0json".format(number))
             r = requests.get("http://xkcd.com/{}/info.0.json".format(number)).json()
-            tg.send_message(message.chat.id, r["img"])
+            tg.send_message(message.chat.id, "{} - {} - {}".format(r['title'], r["img"], r["alt"]))
         except ValueError:
             tg.send_message(message.chat.id, "That wasn't a number. EXTERMINATE!")
 
@@ -37,9 +45,9 @@ if __name__ == '__main__':
     tg = Telegram(config["Telegram"]["apiURL"],config["Telegram"]["token"])
     loggerHandler = LoggerHandler("chat.log")
     cd = CommandDispatcher()
-    cd.add_command("/walrii ", Walrii)
-    cd.add_command("/ddg ", ddg)
-    cd.add_command("/xkcd ", xkcd)
+    cd.add_command("/walrii", Walrii)
+    cd.add_command("/ddg", ddg)
+    cd.add_command("/xkcd", xkcd)
 
     tg.add_handler(loggerHandler)
     tg.add_handler(cd)
