@@ -10,6 +10,10 @@ def Walrii(tg, message):
     tg.send_sticker(message.chat.id, "BQADBAADMwEAAlthFwM-reg8-6kV6QI")
 
 def ddg(tg, message):
+    array = message.text.split(" ", 1)
+    if len(array) < 2:
+        tg.send_message(message.chat.id, "No argument given. EXTERMINATE!")
+        return
     argument = message.text.split(" ", 1)[1]
     if not argument:
         tg.send_message(message.chat.id, "No argument given. EXTERMINATE!")
