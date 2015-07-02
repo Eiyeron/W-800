@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 import configparser
 import requests
+from urllib import parse
+
 from app.telegram import Telegram, Message
 from app.telegram_update_fetcher import TelegramUpdateFetcher
 from app.handlers.logger_handler import LoggerHandler
@@ -18,7 +20,7 @@ def ddg(tg, message):
     if not argument:
         tg.send_message(message.chat.id, "No argument given. EXTERMINATE!")
     else:
-        tg.send_message(message.chat.id, "https://duckduckgo.com/?q="+argument)
+        tg.send_message(message.chat.id, "https://duckduckgo.com/?q="+parse.quote_plus(argument))
 
 def lastest_xkcd(tg, message):
     r = requests.get("http://xkcd.com/info.0.json").json()
