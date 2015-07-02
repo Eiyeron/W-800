@@ -1,0 +1,6 @@
+# Logs
+*.log
+# Ini files
+*.ini
+# Misc
+*.txt
