@@ -4,7 +4,6 @@ import requests
 from urllib import parse
 
 from app.telegram import Telegram, Message
-from app.telegram_update_fetcher import TelegramUpdateFetcher
 from app.handlers.logger_handler import LoggerHandler
 from app.handlers.command_dispatcher import CommandDispatcher
 
@@ -58,5 +57,5 @@ if __name__ == '__main__':
     tg.add_handler(loggerHandler)
     tg.add_handler(cd)
 
-    tfu = TelegramUpdateFetcher(tg)
-    tfu.process_updates()
+    tg.process_updates()
+
