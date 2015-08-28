@@ -26,7 +26,7 @@ def xkcd(tg, message):
 
     array = message.text.split(" ", 1)
     if len(array) < 2:
-        lastest_xkcd(tg, message)
+        _lastest_xkcd(tg, message)
         return
 
     argument = message.text.split(" ", 1)[1]
