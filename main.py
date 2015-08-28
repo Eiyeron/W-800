@@ -7,8 +7,10 @@ from app.telegram import Telegram, Message
 from app.handlers.logger_handler import LoggerHandler
 from app.handlers.command_dispatcher import CommandDispatcher
 
+
 def Walrii(tg, message):
     tg.send_sticker(message.chat.id, "BQADBAADMwEAAlthFwM-reg8-6kV6QI")
+
 
 def ddg(tg, message):
     array = message.text.split(" ", 1)
@@ -42,7 +44,6 @@ def xkcd(tg, message):
             tg.send_message(message.chat.id, "{} - {} - {}".format(r['title'], r["img"], r["alt"]))
         except ValueError:
             tg.send_message(message.chat.id, "That wasn't a number. EXTERMINATE!")
-
 
 if __name__ == '__main__':
     config = configparser.ConfigParser()
