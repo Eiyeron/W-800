@@ -48,7 +48,7 @@ def fortune(tg, message):
         print(message.chat.id, "Too much arguments. EXTERMINATE!")
     elif len(array) == 1:
         tg.send_message(message.chat.id,
-                        subprocess.check_output(['fortune',
+                        subprocess.check_output(['fortune', '-a',
                                                  random.choice(allowed_fortunes)]
                                                ).decode('utf-8')
                        )
