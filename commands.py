@@ -1,6 +1,8 @@
 import os
 import random
 import requests
+from lxml.html import fromstring
+
 import subprocess
 from urllib import parse
 
@@ -18,6 +20,27 @@ def ddg(tg, message):
 
 def walrii(tg, message):
     tg.send_sticker(message.chat.id, "BQADBAADMwEAAlthFwM-reg8-6kV6QI")
+
+def qc(tg, message):
+    def _lastest_qc(tg, message):
+        tree = fromstring(requests.get("http://questionablecontent.net").text)
+        img = tree.get_element_by_id("comic").xpath("img")[0]
+        print(img)
+        return img.attrib["src"]
+
+    array = message.text.split(" ", 1)
+    if len(array) < 2:
+        return tg.send_message(message.chat.id, _lastest_qc(tg, message))
+
+    argument = message.text.split(" ", 1)[1]
+    if not argument:
+        _lastest_xkcd(tg, message)
+    else:
+        try:
+            number = int(argument)
+            return tg.send_message(message.chat.id, "http://questionablecontent.net/comics/{}.png".format(number))
+        except ValueError:
+            tg.send_message(message.chat.id, "That wasn't a number. EXTERMINATE!")
 
 def xkcd(tg, message):
     def _lastest_xkcd(tg, message):
