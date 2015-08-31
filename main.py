@@ -9,6 +9,7 @@ import commands
 
 def load_functions_from_module(cd, module):
     for f in [f for f in module.__dict__ if not f.startswith('_')]:
+        print ("adding {}".format(f))
         cd.add_command('/{}'.format(f), getattr(module, f))
 
 if __name__ == '__main__':
