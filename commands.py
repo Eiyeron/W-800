@@ -21,11 +21,34 @@ def ddg(tg, message):
 def walrii(tg, message):
     tg.send_sticker(message.chat.id, "BQADBAADMwEAAlthFwM-reg8-6kV6QI")
 
+def explosm(tg, message):
+    def _lastest_explosm(tg, message):
+        tree = fromstring(requests.get('http://explosm.net').text)
+        img = tree.get_element_by_id("featured-comic")
+        return img.attrib["src"]
+
+    array = message.text.split(" ", 1)
+    if len(array) < 2:
+        return tg.send_message(message.chat.id, _lastest_explosm(tg, message))
+
+    argument = message.text.split(" ", 1)[1]
+    if not argument:
+        _lastest_explosm(tg, message)
+    else:
+        try:
+            number = int(argument)
+            tree = fromstring(requests.get('http://explosm.net/comics/{}/'.format(number)).text)
+            img = tree.get_element_by_id("main-comic")
+            return tg.send_message(message.chat.id, img.attrib["src"])
+        except ValueError:
+            tg.send_message(message.chat.id, "That wasn't a number. EXTERMINATE!")
+
+    return tg.send_message(message.chat.id, img.attrib["src"])
+
 def qc(tg, message):
     def _lastest_qc(tg, message):
         tree = fromstring(requests.get("http://questionablecontent.net").text)
         img = tree.get_element_by_id("comic").xpath("img")[0]
-        print(img)
         return img.attrib["src"]
 
     array = message.text.split(" ", 1)
