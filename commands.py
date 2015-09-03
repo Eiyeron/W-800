@@ -27,10 +27,6 @@ def explosm(tg, message):
         img = tree.get_element_by_id("featured-comic")
         return img.attrib["src"]
 
-    array = message.text.split(" ", 1)
-    if len(array) < 2:
-        return tg.send_message(message.chat.id, _lastest_explosm(tg, message))
-
     argument = message.text.split(" ", 1)[1]
     if not argument:
         _lastest_explosm(tg, message)
@@ -70,19 +66,30 @@ def xkcd(tg, message):
         r = requests.get("http://xkcd.com/info.0.json").json()
         tg.send_message(message.chat.id, "'{} - {} - {}".format(r['title'], r["img"], r["alt"]))
 
-    array = message.text.split(" ", 1)
+    explain = False
+
+    array = message.text.split(" ", 2)
+
     if len(array) < 2:
         _lastest_xkcd(tg, message)
         return
 
-    argument = message.text.split(" ", 1)[1]
+    if array[1] == '-e' or array[1] == '--explain' or array[1] == '—explain':
+        explain = True
+        array.pop(1)
+
+
+    argument = array[1]
     if not argument:
         _lastest_xkcd(tg, message)
     else:
         try:
             number = int(argument)
             r = requests.get("http://xkcd.com/{}/info.0.json".format(number)).json()
-            tg.send_message(message.chat.id, "{} - {} - {}".format(r['title'], r["img"], r["alt"]))
+            result = "{} - {} - {}".format(r['title'], r["img"], r["alt"])
+            if explain:
+                result += "\n Explanation : http://www.explainxkcd.com/wiki/index.php/{}".format(number)
+            tg.send_message(message.chat.id, result)
         except ValueError:
             tg.send_message(message.chat.id, "That wasn't a number. EXTERMINATE!")
 
