@@ -88,7 +88,7 @@ def xkcd(tg, message):
             r = requests.get("http://xkcd.com/{}/info.0.json".format(number)).json()
             result = "{} - {} - {}".format(r['title'], r["img"], r["alt"])
             if explain:
-                result += "\n Explanation : http://www.explainxkcd.com/wiki/index.php/{}".format(number)
+                result += "\n Explanation for puny humans: http://www.explainxkcd.com/wiki/index.php/{}".format(number)
             tg.send_message(message.chat.id, result)
         except ValueError:
             tg.send_message(message.chat.id, "That wasn't a number. EXTERMINATE!")
